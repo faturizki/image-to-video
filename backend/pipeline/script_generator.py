@@ -1,5 +1,10 @@
 import openai
-from ..config import settings
+from typing import Optional
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from config import settings
 import logging
 
 logger = logging.getLogger(__name__)
@@ -8,8 +13,14 @@ async def generate_script(prompt: str, mode: str) -> str:
     """
     Generate a narrative script from the prompt.
     """
+    if not prompt or not prompt.strip():
+        raise ValueError("Prompt cannot be empty")
+    if mode not in ["ads", "cinematic"]:
+        raise ValueError("Mode must be 'ads' or 'cinematic'")
+
     if settings.openai_api_key:
         try:
+            logger.info("[SCRIPT] Using OpenAI API for script generation")
             client = openai.AsyncOpenAI(api_key=settings.openai_api_key)
             response = await client.chat.completions.create(
                 model="gpt-4",
@@ -19,11 +30,16 @@ async def generate_script(prompt: str, mode: str) -> str:
                 ],
                 max_tokens=500
             )
-            return response.choices[0].message.content.strip()
+            script = response.choices[0].message.content.strip()
+            if not script:
+                raise ValueError("OpenAI returned empty script")
+            logger.info("[SCRIPT] Script generated via OpenAI")
+            return script
         except Exception as e:
-            logger.error("OpenAI error: %s", e)
+            logger.warning(f"[SCRIPT] OpenAI failed: {e}, falling back to mock")
             return mock_script(prompt, mode)
     else:
+        logger.info("[SCRIPT] Using mock script generation")
         return mock_script(prompt, mode)
 
 def mock_script(prompt: str, mode: str) -> str:
