@@ -36,7 +36,27 @@ root/ │ ├── frontend/                 # Dashboard UI (Vercel) │   ├�
 
 # 🚀 Setup Project
 
-## 1. Install Dependencies
+## 1. API Keys Setup
+
+### For Local Development
+1. Copy `.env.example` to `.env`
+2. Fill in your API keys:
+   ```bash
+   cp .env.example .env
+   # Edit .env with your actual API keys
+   ```
+
+### For GitHub Actions / Production
+1. Go to GitHub → Settings → Secrets and Variables → Actions
+2. Add the following secrets:
+   - `HUGGINGFACE_API_KEY`: Your Hugging Face API key
+   - `OPENAI_API_KEY`: Your OpenAI API key (optional, for script generation)
+
+### Required API Keys
+- **Hugging Face API Key**: For image/video generation
+- **OpenAI API Key**: For script generation (optional, falls back to mock)
+
+## 2. Install Dependencies
 
 ### Backend
 ```bash

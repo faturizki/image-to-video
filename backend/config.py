@@ -2,6 +2,10 @@ import os
 from pathlib import Path
 from pydantic_settings import BaseSettings
 from typing import Optional
+from dotenv import load_dotenv
+
+# Load environment variables from .env file if it exists
+load_dotenv()
 
 # Constants
 DEFAULT_DURATION = 180  # seconds
@@ -46,5 +50,9 @@ class Settings(BaseSettings):
             print("OpenAI API key loaded successfully")
         else:
             print("OpenAI API key not found - using mock mode")
+
+        # For production deployment, require Hugging Face API key
+        if os.getenv("ENV") == "production" and not self.huggingface_api_key:
+            raise ValueError("HUGGINGFACE_API_KEY is required in production environment")
 
 settings = Settings()
