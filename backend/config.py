@@ -2,10 +2,6 @@ import os
 from pathlib import Path
 from pydantic_settings import BaseSettings
 from typing import Optional
-from dotenv import load_dotenv
-
-# Load environment variables from .env file if it exists
-load_dotenv()
 
 # Constants
 DEFAULT_DURATION = 180  # seconds
@@ -15,9 +11,9 @@ MAX_IMAGE_SIZE = 10 * 1024 * 1024  # 10MB
 ALLOWED_IMAGE_EXTENSIONS = {'.png', '.jpg', '.jpeg'}
 
 class Settings(BaseSettings):
-    # API Keys
-    huggingface_api_key: Optional[str] = os.getenv("HUGGINGFACE_API_KEY")
-    openai_api_key: Optional[str] = os.getenv("OPENAI_API_KEY")
+    # API Keys - Let BaseSettings handle environment loading
+    huggingface_api_key: Optional[str] = None
+    openai_api_key: Optional[str] = None
 
     # Paths
     assets_dir: str = "/workspaces/image-to-video/assets"
@@ -32,7 +28,8 @@ class Settings(BaseSettings):
     min_scenes: int = MIN_SCENES
 
     class Config:
-        env_file = ".env"
+        env_file = ".env"  # Load from .env file if exists
+        env_file_encoding = "utf-8"
 
     def __init__(self, **data):
         super().__init__(**data)
@@ -40,18 +37,18 @@ class Settings(BaseSettings):
         Path(self.assets_dir).mkdir(parents=True, exist_ok=True)
         Path(self.outputs_dir).mkdir(parents=True, exist_ok=True)
 
-        # Validate API keys (optional, can be None for mock mode)
+        # Validate API keys
         if self.huggingface_api_key:
             print("Hugging Face API key loaded successfully")
         else:
-            print("Hugging Face API key not found - using mock mode")
+            print("WARNING: HUGGINGFACE_API_KEY not found - using mock mode")
 
         if self.openai_api_key:
             print("OpenAI API key loaded successfully")
         else:
-            print("OpenAI API key not found - using mock mode")
+            print("WARNING: OPENAI_API_KEY not found - using mock mode")
 
-        # For production deployment, require Hugging Face API key
+        # Production validation
         if os.getenv("ENV") == "production" and not self.huggingface_api_key:
             raise ValueError("HUGGINGFACE_API_KEY is required in production environment")
 
