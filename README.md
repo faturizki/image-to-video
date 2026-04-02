@@ -117,6 +117,109 @@ API keys are automatically tested during CI/CD pipeline via GitHub Secrets.
 
 See [backend/test_api_keys_README.md](backend/test_api_keys_README.md) for detailed testing documentation.
 
+## Pipeline Orchestrator
+
+The Backend now includes a powerful **Pipeline Orchestrator** that seamlessly integrates Gemini and Hugging Face for end-to-end video generation.
+
+### Quick Start
+
+```python
+from pipeline.orchestrator import orchestrate_video_generation
+
+# Generate video with one line
+result = orchestrate_video_generation(
+    user_input="Create a cinematic video of sunset over ocean",
+    mode="cinematic",
+    num_scenes=3
+)
+
+# Access results
+for video in result['videos']:
+    print(f"Scene {video['scene_number']}: {video['filename']}")
+```
+
+### Orchestrator Flow
+
+```
+User Input
+    ↓
+[Gemini] Generate Script
+    ↓
+[Gemini] Generate Video Prompts (JSON)
+    ↓
+[Hugging Face] Generate Videos
+    ↓
+Output Videos
+```
+
+### Usage
+
+**Option 1: Quick One-Liner**
+```bash
+cd backend
+python -c "
+from pipeline.orchestrator import orchestrate_video_generation
+result = orchestrate_video_generation('Your prompt')
+print(f'Generated {result[\"scene_count\"]} videos')
+"
+```
+
+**Option 2: Full Control**
+```python
+from pipeline.orchestrator import PipelineOrchestrator
+
+orchestrator = PipelineOrchestrator()
+result = orchestrator.run_pipeline(
+    user_input="Product advertisement",
+    mode="ads",
+    num_scenes=5
+)
+```
+
+**Option 3: Component Testing**
+```python
+from pipeline.orchestrator import GeminiOrchestrator, HuggingFaceOrchestrator
+
+# Test Gemini separately
+gemini = GeminiOrchestrator()
+script = gemini.generate_video_script("Your prompt", mode="ads")
+prompts = gemini.generate_structured_prompts(script, num_scenes=3)
+
+# Test Hugging Face separately
+hf = HuggingFaceOrchestrator()
+if hf.validate_api_key():
+    video = hf.generate_video("Video description", scene_num=1)
+```
+
+### Output Format
+
+```json
+{
+  "pipeline_id": "20260402_150234",
+  "status": "success",
+  "script": "Generated narrative script...",
+  "scene_count": 3,
+  "scenes": [
+    {
+      "scene_number": 1,
+      "scene_description": "Scene description",
+      "video_prompt": "Detailed video generation prompt",
+      "duration_seconds": 5,
+      "visual_style": "cinematic"
+    }
+  ],
+  "videos": [
+    {
+      "scene_number": 1,
+      "filepath": "/path/to/video.mp4",
+      "filename": "video_scene_1.mp4"
+    }
+  ]
+}
+```
+
+For detailed documentation, see [backend/ORCHESTRATOR_GUIDE.md](backend/ORCHESTRATOR_GUIDE.md)
+
 ## 2. Install Dependencies
 
 ### Backend
