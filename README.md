@@ -1,0 +1,329 @@
+# 🎬 AI Video Generator (Personal Use)
+
+Sistem AI untuk membuat video iklan / cinematic secara otomatis (durasi 2–5 menit) dengan kontrol penuh dari user.
+
+Fokus:
+- Konsistensi karakter
+- Scene-based generation
+- Kontrol prompt
+- Full pipeline otomatis
+- Gratis (dengan limit platform)
+
+---
+
+# 🧠 Arsitektur Sistem
+
+Frontend (Vercel) ↓ API Backend (Hugging Face / FastAPI) ↓ AI Pipeline ├── Script Generator ├── Scene Splitter ├── Image/Video Generator ├── Voice Generator (optional) └── Video Merger (FFmpeg) ↓ Output Video
+
+---
+
+# ⚙️ Tech Stack
+
+- Frontend: Next.js (deploy ke Vercel)
+- Backend: FastAPI / Hugging Face Spaces
+- AI: Hugging Face Models
+- Video Processing: FFmpeg
+- Storage: Local / Cloud (opsional)
+- Version Control: GitHub
+
+---
+
+# 📁 Struktur Project
+
+root/ │ ├── frontend/                 # Dashboard UI (Vercel) │   ├── pages/ │   ├── components/ │   ├── styles/ │   └── utils/ │ ├── backend/                  # AI Engine (Hugging Face) │   ├── app.py │   ├── config.py │   ├── pipeline/ │   │   ├── script_generator.py │   │   ├── scene_splitter.py │   │   ├── prompt_engine.py │   │   ├── image_generator.py │   │   ├── video_generator.py │   │   └── merger.py │ ├── assets/                   # reference images ├── outputs/                  # hasil video ├── requirements.txt └── README.md
+
+---
+
+# 🚀 Setup Project
+
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/username/ai-video-generator.git
+cd ai-video-generator
+
+
+---
+
+2. Install Backend Dependencies
+
+cd backend
+pip install -r requirements.txt
+
+
+---
+
+3. Install Frontend Dependencies
+
+cd frontend
+npm install
+
+
+---
+
+▶️ Menjalankan Project
+
+Backend (AI Engine)
+
+cd backend
+uvicorn app:app --host 0.0.0.0 --port 8000
+
+
+---
+
+Frontend (Dashboard)
+
+cd frontend
+npm run dev
+
+Akses:
+
+http://localhost:3000
+
+
+---
+
+🌐 Deployment
+
+Frontend → Vercel
+
+1. Push ke GitHub
+
+
+2. Masuk ke: 👉 https://vercel.com
+
+
+3. Import project
+
+
+4. Klik Deploy
+
+
+
+
+---
+
+Backend → Hugging Face
+
+1. Masuk: 👉 https://huggingface.co/spaces
+
+
+2. Buat Space baru
+
+
+3. Upload backend
+
+
+4. Pilih:
+
+FastAPI / Gradio
+
+
+
+5. Jalankan
+
+
+
+
+---
+
+🔗 Integrasi Frontend → Backend
+
+const generateVideo = async () => {
+  const response = await fetch("https://your-space.hf.space/generate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      prompt: "luxury eyelash commercial",
+      mode: "cinematic",
+      duration: "3 minutes"
+    })
+  });
+
+  const data = await response.json();
+  return data;
+};
+
+
+---
+
+🎬 Pipeline AI (Inti Sistem)
+
+1. User input prompt
+2. Generate script (AI)
+3. Split menjadi scene:
+   - Scene 1 (Hook)
+   - Scene 2 (Problem)
+   - Scene 3 (Solution)
+   - Scene 4 (CTA)
+4. Generate visual per scene
+5. (Optional) Generate voice
+6. Merge video (FFmpeg)
+7. Output final video
+
+
+---
+
+🧩 Scene System
+
+Gunakan struktur scene untuk menjaga konsistensi:
+
+[
+  "Scene 1: cinematic close-up eyes, dramatic lighting",
+  "Scene 2: product reveal",
+  "Scene 3: transformation effect",
+  "Scene 4: branding + CTA"
+]
+
+
+---
+
+🎯 Prompt Template
+
+Gunakan prompt konsisten:
+
+same character, consistent identity,
+luxury cinematic lighting, ultra realistic,
+high detail, 4k, smooth motion,
+commercial quality
+
+
+---
+
+🎥 Video Output
+
+Disimpan di:
+
+/outputs/final_video.mp4
+
+
+---
+
+🔊 Voice (Optional)
+
+ElevenLabs
+
+Coqui TTS
+
+
+Output:
+
+voice.mp3
+
+
+---
+
+⚠️ Limitasi
+
+Hugging Face Free:
+
+GPU terbatas
+
+Queue processing
+
+Latency
+
+
+Vercel:
+
+hanya frontend
+
+tidak untuk AI berat
+
+
+
+---
+
+💡 Best Practice
+
+Gunakan scene pendek
+
+Gunakan reference image untuk karakter
+
+Gunakan prompt konsisten
+
+Hindari terlalu banyak variasi
+
+Simpan hasil per scene
+
+
+
+---
+
+🧠 Tips Konsistensi
+
+Gunakan:
+
+seed tetap
+
+reference image
+
+prompt yang sama
+
+LoRA (advanced)
+
+
+
+---
+
+📦 Output Pipeline
+
+INPUT → SCRIPT → SCENE → GENERATE → MERGE → OUTPUT
+
+
+---
+
+🔥 Roadmap
+
+[ ] Auto scene optimization
+
+[ ] Character consistency (LoRA)
+
+[ ] Voice sync
+
+[ ] Multi-language
+
+[ ] Template ads system
+
+[ ] Monetization tools
+
+
+
+---
+
+🤝 Penggunaan
+
+Sistem ini untuk:
+
+penggunaan pribadi
+
+eksperimen AI
+
+pembelajaran
+
+
+
+---
+
+📄 License
+
+MIT License
+
+
+---
+
+🚀 Goal
+
+Membangun AI yang:
+
+otomatis membuat video
+
+konsisten karakter
+
+bisa dikontrol user
+
+scalable
+
+siap dikembangkan
