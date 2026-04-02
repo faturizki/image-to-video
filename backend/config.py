@@ -16,9 +16,9 @@ class Settings(BaseSettings):
     openai_api_key: Optional[str] = None
     gemini_api_key: Optional[str] = None
 
-    # Paths
-    assets_dir: str = "/workspaces/image-to-video/assets"
-    outputs_dir: str = "/workspaces/image-to-video/outputs"
+    # Paths - Relative paths from backend directory
+    assets_dir: str = "../assets"
+    outputs_dir: str = "../outputs"
 
     # FFmpeg path
     ffmpeg_path: str = "ffmpeg"
@@ -34,10 +34,7 @@ class Settings(BaseSettings):
 
     def __init__(self, **data):
         super().__init__(**data)
-        # Validate and create directories
-        Path(self.assets_dir).mkdir(parents=True, exist_ok=True)
-        Path(self.outputs_dir).mkdir(parents=True, exist_ok=True)
-
+        # Directory creation moved to runtime to avoid permission issues
         # Validate API keys
         if self.huggingface_api_key:
             print("Hugging Face API key loaded successfully")
