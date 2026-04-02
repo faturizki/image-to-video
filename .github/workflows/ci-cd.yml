@@ -37,6 +37,12 @@ jobs:
         cd backend
         python -c "import config; print('Config loaded successfully')"
 
+    - name: Validate API keys
+      run: |
+        cd backend
+        python test_api_keys.py
+      continue-on-error: true
+
   build-and-deploy:
     runs-on: ubuntu-latest
     needs: test
