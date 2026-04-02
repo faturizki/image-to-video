@@ -12,6 +12,7 @@ jobs:
     env:
       HUGGINGFACE_API_KEY: ${{ secrets.HUGGINGFACE_API_KEY }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
     steps:
     - uses: actions/checkout@v4
@@ -23,7 +24,7 @@ jobs:
 
     - name: Debug environment
       run: |
-        python -c "import os; print('HF exists:', 'HUGGINGFACE_API_KEY' in os.environ); print('OPENAI exists:', 'OPENAI_API_KEY' in os.environ)"
+        python -c "import os; print('HF exists:', 'HUGGINGFACE_API_KEY' in os.environ); print('OPENAI exists:', 'OPENAI_API_KEY' in os.environ); print('GEMINI exists:', 'GEMINI_API_KEY' in os.environ)"
 
     - name: Install dependencies
       run: |
@@ -43,6 +44,7 @@ jobs:
     env:
       HUGGINGFACE_API_KEY: ${{ secrets.HUGGINGFACE_API_KEY }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
     steps:
     - uses: actions/checkout@v4
@@ -61,7 +63,7 @@ jobs:
     - name: Build backend
       run: |
         cd backend
-        python -c "from config import settings; print('API keys loaded:', bool(settings.huggingface_api_key), bool(settings.openai_api_key))"
+        python -c "from config import settings; print('API keys loaded:', bool(settings.huggingface_api_key), bool(settings.openai_api_key), bool(settings.gemini_api_key))"
 
     - name: Set up Node.js
       uses: actions/setup-node@v4

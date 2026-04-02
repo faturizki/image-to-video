@@ -1,4 +1,4 @@
-import openai
+import google.generativeai as genai
 from typing import Optional
 import sys
 import os
@@ -18,25 +18,21 @@ async def generate_script(prompt: str, mode: str) -> str:
     if mode not in ["ads", "cinematic"]:
         raise ValueError("Mode must be 'ads' or 'cinematic'")
 
-    if settings.openai_api_key:
+    if settings.gemini_api_key:
         try:
-            logger.info("[SCRIPT] Using OpenAI API for script generation")
-            client = openai.AsyncOpenAI(api_key=settings.openai_api_key)
-            response = await client.chat.completions.create(
-                model="gpt-4",
-                messages=[
-                    {"role": "system", "content": f"You are a script writer for {mode} videos. Create a detailed narrative script."},
-                    {"role": "user", "content": f"Write a script based on this prompt: {prompt}"}
-                ],
-                max_tokens=500
+            logger.info("[SCRIPT] Using Gemini API for script generation")
+            genai.configure(api_key=settings.gemini_api_key)
+            model = genai.GenerativeModel("gemini-1.5-flash")  # Note: Using 1.5-flash as 2.5-flash might not be available yet
+            response = model.generate_content(
+                f"You are a script writer for {mode} videos. Create a detailed narrative script based on this prompt: {prompt}"
             )
-            script = response.choices[0].message.content.strip()
+            script = response.text.strip()
             if not script:
-                raise ValueError("OpenAI returned empty script")
-            logger.info("[SCRIPT] Script generated via OpenAI")
+                raise ValueError("Gemini returned empty script")
+            logger.info("[SCRIPT] Script generated via Gemini")
             return script
         except Exception as e:
-            logger.warning(f"[SCRIPT] OpenAI failed: {e}, falling back to mock")
+            logger.warning(f"[SCRIPT] Gemini failed: {e}, falling back to mock")
             return mock_script(prompt, mode)
     else:
         logger.info("[SCRIPT] Using mock script generation")

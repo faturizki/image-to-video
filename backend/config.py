@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     # API Keys - Let BaseSettings handle environment loading
     huggingface_api_key: Optional[str] = None
     openai_api_key: Optional[str] = None
+    gemini_api_key: Optional[str] = None
 
     # Paths
     assets_dir: str = "/workspaces/image-to-video/assets"
@@ -47,6 +48,11 @@ class Settings(BaseSettings):
             print("OpenAI API key loaded successfully")
         else:
             print("WARNING: OPENAI_API_KEY not found - using mock mode")
+
+        if self.gemini_api_key:
+            print("Gemini API key loaded successfully")
+        else:
+            print("WARNING: GEMINI_API_KEY not found - using mock mode")
 
         # Production validation
         if os.getenv("ENV") == "production" and not self.huggingface_api_key:
