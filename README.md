@@ -51,10 +51,71 @@ root/ │ ├── frontend/                 # Dashboard UI (Vercel) │   ├�
 2. Add the following secrets:
    - `HUGGINGFACE_API_KEY`: Your Hugging Face API key
    - `OPENAI_API_KEY`: Your OpenAI API key (optional, for script generation)
+   - `GEMINI_API_KEY`: Your Google Gemini API key (for script generation)
 
 ### Required API Keys
 - **Hugging Face API Key**: For image/video generation
-- **OpenAI API Key**: For script generation (optional, falls back to mock)
+- **Gemini API Key**: For script generation with Google Generative AI
+- **OpenAI API Key**: (Deprecated, no longer used)
+
+## Testing API Keys
+
+### Validate All API Keys
+Before running the application, validate that all API keys are properly configured:
+
+```bash
+cd backend
+python test_api_keys.py
+```
+
+This will test:
+- ✓ API key loading from environment
+- ✓ API authentication
+- ✓ Basic API functionality
+
+**Output Example:**
+```
+✓ GEMINI: SUCCESS
+  Message: API key is valid and working
+✓ HUGGINGFACE: SUCCESS
+  Message: API key is valid and working
+```
+
+### Interactive Test Runner
+For a guided testing experience:
+```bash
+cd backend
+bash run_api_tests.sh
+```
+
+This provides options to:
+1. Test without keys (mock mode)
+2. Test with environment variables
+3. Test with .env file
+4. Run all tests
+
+### Usage with Different Environment Setups
+
+**Local Development (with .env file):**
+```bash
+cp .env.example .env
+# Edit .env with your actual API keys
+cd backend
+python test_api_keys.py
+```
+
+**Using Environment Variables:**
+```bash
+export GEMINI_API_KEY=your-key-here
+export HUGGINGFACE_API_KEY=your-key-here
+cd backend
+python test_api_keys.py
+```
+
+**GitHub Actions:**
+API keys are automatically tested during CI/CD pipeline via GitHub Secrets.
+
+See [backend/test_api_keys_README.md](backend/test_api_keys_README.md) for detailed testing documentation.
 
 ## 2. Install Dependencies
 
