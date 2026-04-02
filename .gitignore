@@ -1,0 +1,103 @@
+# Dependencies
+node_modules/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+ENV/
+.venv/
+.conda/
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+*.egg
+
+# Output files
+outputs/
+assets/generated/
+*.mp4
+*.avi
+*.mov
+
+# Cache
+.cache/
+__pycache__/
+*.cache
+*.log
+logs/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# FFmpeg temp files
+ffmpeg2pass-0.log
+ffmpeg2pass-0.log.mbtree
+
+# Python virtual environments
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Coverage reports
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+htmlcov/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Node.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Next.js
+.next/
+out/
+
+# FastAPI
+*.db
+*.sqlite3
+
+# Hugging Face
+.huggingface/
+
+# Git
+.gitignore.backup
+
+# Miscellaneous
+*.zip
+*.tar.gz
+*.rar

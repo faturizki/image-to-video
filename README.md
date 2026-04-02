@@ -36,18 +36,69 @@ root/ │ ├── frontend/                 # Dashboard UI (Vercel) │   ├�
 
 # 🚀 Setup Project
 
-## 1. Clone Repository
+## 1. Install Dependencies
 
+### Backend
 ```bash
-git clone https://github.com/username/ai-video-generator.git
-cd ai-video-generator
+pip install -r requirements.txt
+```
 
+### Frontend
+```bash
+cd frontend
+npm install
+```
+
+## 2. Run Backend
+```bash
+cd backend
+python -m backend.app
+```
+Server akan berjalan di http://localhost:8000
+
+## 3. Run Frontend
+```bash
+cd frontend
+npm run dev
+```
+Frontend akan berjalan di http://localhost:3000
+
+## 4. Test
+Buka http://localhost:3000, isi form, dan generate video.
 
 ---
 
-2. Install Backend Dependencies
+# 📁 Struktur Project
 
-cd backend
+root/
+│
+├── frontend/ (Next.js)
+│   ├── pages/
+│   │   ├── index.js          # Dashboard UI
+│   │   └── _app.js
+│   ├── components/
+│   ├── services/api.js       # API client
+│   ├── hooks/
+│   └── styles/
+│       └── globals.css
+│
+├── backend/ (FastAPI)
+│   ├── app.py                 # Main FastAPI app
+│   ├── config.py              # Settings
+│   ├── pipeline/
+│   │   ├── run_pipeline.py    # Main pipeline
+│   │   ├── script_generator.py
+│   │   ├── scene_splitter.py
+│   │   ├── prompt_engine.py
+│   │   ├── image_generator.py
+│   │   ├── video_generator.py
+│   │   └── merger.py
+│   └── utils/
+│
+├── assets/
+├── outputs/
+├── requirements.txt
+└── README.md
 pip install -r requirements.txt
 
 
